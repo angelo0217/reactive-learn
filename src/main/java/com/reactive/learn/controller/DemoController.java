@@ -38,4 +38,9 @@ public class DemoController {
     public Flux<String> getList(){
         return demoService.getList().delayElements(Duration.ofSeconds(1));
     }
+
+    @GetMapping("/lock")
+    public Mono<Boolean> getLock(){
+        return demoService.lock();
+    }
 }
