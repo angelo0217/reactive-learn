@@ -1,5 +1,6 @@
 package com.reactive.learn.service;
 
+import com.reactive.learn.config.TransactionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class DemoService {
     private ReactiveRedisTemplate<String, Object> redisTemplate;
 
     @Autowired
-    private RedisLockService redisLockService;
+    private TransactionHelper transactionHelper;
 
     /** 重試機制-使用背壓模式重試1次間隔500毫秒 */
     private Retry retry = Retry.backoff(1, Duration.ofMillis(500));
@@ -41,6 +42,6 @@ public class DemoService {
                 .retryWhen(retry).onErrorReturn(Boolean.FALSE)
                 .log("[CacheManager][save]");
 
-        return redisLockService.doInTransaction("cacheKey", () -> processer);
+        return transactionHelper.doInTransaction("cacheKey", () -> processer);
     }
 }

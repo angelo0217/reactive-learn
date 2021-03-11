@@ -1,4 +1,4 @@
-package com.reactive.learn.service;
+package com.reactive.learn.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.redis.util.RedisLockRegistry;
@@ -9,7 +9,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.function.Supplier;
 
 @Service
-public class RedisLockService {
+public class TransactionHelper {
     @Autowired
     private RedisLockRegistry redisLockRegistry;
 
