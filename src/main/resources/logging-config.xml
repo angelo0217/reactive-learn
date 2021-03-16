@@ -3,7 +3,7 @@
     <property name="CHARSET" value="UTF-8" />
     <property name="PATTERN" value="%date[%level][%thread] %logger{0} - %msg%n" />
     <property name="PATTERN_FRONT" value="%msg%n" />
-    <property name="HOME_LOG" value="/opt/logs/stream_client/client.log"/>
+    <property name="HOME_LOG" value="/opt/logs/learn/learn.log"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoder默認配置為PartternLayoutEncoder    -->
@@ -41,7 +41,7 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="com.stream.client" level="DEBUG" additivity="false">
+    <logger name="com.reactive.learn" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="MB_FILE"/>
     </logger>
