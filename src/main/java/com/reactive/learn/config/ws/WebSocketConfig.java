@@ -19,32 +19,33 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocketConfig {
     @Autowired
     private ReactiveWebSocketHandler reactiveWebSocketHandler;
+    @Autowired
+    private ReactiveWebSocketByteHandler reactiveWebSocketByteHandler;
 
     @Bean
     public HandlerMapping handlerMapping(){
         Map<String, WebSocketHandler> map = new ConcurrentHashMap<>();
         map.put("/ws", reactiveWebSocketHandler);
-
+        map.put("/video", reactiveWebSocketByteHandler);
         SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
         mapping.setUrlMap(map);
         mapping.setOrder(-1);
 
         return mapping;
-
     }
 
     @Bean
     public WebSocketHandlerAdapter handlerAdapter(){
-//        return new WebSocketHandlerAdapter(webSocketService());
-        return new WebSocketHandlerAdapter();
+        return new WebSocketHandlerAdapter(webSocketService());
+//        return new WebSocketHandlerAdapter();
     }
 
-//    @Bean
-//    public WebSocketService webSocketService(){
-//
-//        ReactorNettyRequestUpgradeStrategy strategy = new ReactorNettyRequestUpgradeStrategy();
-//        strategy.setHandlePing(true);
-//        strategy.setMaxFramePayloadLength(1024 * 1024 * 1024);
-//        return new HandshakeWebSocketService(strategy);
-//    }
+    @Bean
+    public WebSocketService webSocketService(){
+
+        ReactorNettyRequestUpgradeStrategy strategy = new ReactorNettyRequestUpgradeStrategy();
+        strategy.setHandlePing(true);
+        strategy.setMaxFramePayloadLength(1024 * 1024 * 1024);
+        return new HandshakeWebSocketService(strategy);
+    }
 }
