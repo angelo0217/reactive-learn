@@ -1,6 +1,8 @@
 package com.reactive.learn.service;
 
 import com.reactive.learn.config.TransactionHelper;
+import com.reactive.learn.model.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -9,7 +11,10 @@ import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.Vector;
 
+@Slf4j
 @Service
 public class DemoService {
     @Autowired
@@ -34,7 +39,25 @@ public class DemoService {
     }
 
     public Flux<String> getList(){
-        return redisTemplate.opsForList().range("num", 0, -1).map(n -> "hello-" + n);
+        Flux<String> flux = redisTemplate.opsForList().range("num", 0, -1).map(n -> "hello-" + n);
+
+        //example flux to list
+        List<String> list = flux.collectList().block();
+        list.forEach(log::info);
+        return flux;
+    }
+
+    public Flux<User> getTmpList(){
+        List<User> tmp = new Vector<>();
+        tmp.add(new User("aaa", 10));
+        tmp.add(new User("bbb", 11));
+        tmp.add(new User("ccc", 12));
+        tmp.add(new User("ddd", 13));
+
+        return Flux.create(sink -> {
+            tmp.forEach(user -> sink.next(user));
+            sink.complete();
+        });
     }
 
     public Mono<Boolean> lock(){

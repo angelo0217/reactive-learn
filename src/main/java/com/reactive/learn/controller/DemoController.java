@@ -1,6 +1,7 @@
 package com.reactive.learn.controller;
 
 import com.reactive.learn.config.ws.WsManager;
+import com.reactive.learn.model.User;
 import com.reactive.learn.model.WsSessionVo;
 import com.reactive.learn.service.DemoService;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,9 +50,14 @@ public class DemoController {
         return demoService.delete(key);
     }
 
-    @GetMapping("/list")
+    @GetMapping(value = "/list", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> getList(){
         return demoService.getList().delayElements(Duration.ofSeconds(1));
+    }
+
+    @GetMapping(value = "/listtmp", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<User> getListTmp(){
+        return demoService.getTmpList().delayElements(Duration.ofSeconds(1));
     }
 
     @GetMapping("/lock")
