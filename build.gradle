@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.3.2.RELEASE'
+        springBootVersion = '2.3.9.RELEASE'
         springBootAdminVersion = '2.1.5'
     }
     repositories {
@@ -23,7 +23,7 @@ group 'com.reactive.learn'
 version '1.0.0'
 
 
-sourceCompatibility = 13
+sourceCompatibility = 15
 
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
