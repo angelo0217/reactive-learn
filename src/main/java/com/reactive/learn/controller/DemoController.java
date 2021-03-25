@@ -65,7 +65,7 @@ public class DemoController {
         return demoService.lock();
     }
 
-    @GetMapping("/send/{id}")
+    @GetMapping("/send/socket/{id}")
     public Mono<Void> sendWs(@PathVariable("id") String id){
         String test = "hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello";
         StringBuffer sb = new StringBuffer();
